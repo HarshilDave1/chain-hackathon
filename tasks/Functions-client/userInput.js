@@ -14,7 +14,7 @@ task("userInput", "Update the args field in the configuration")
 
     // Update the args field in the configuration
     requestConfig.args = [newValue]
-
+    requestConfig.source = fs.readFileSync("./promptHuggingFace.js").toString()
     // Set the sensitive values from environment variables
     requestConfig.walletPrivateKey = process.env.PRIVATE_KEY //Is this a security issue?
 

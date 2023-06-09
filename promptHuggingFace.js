@@ -20,8 +20,18 @@ const openAIRequest = Functions.makeHttpRequest({
   },
   data: {
     inputs: {
-      generated_responses: [],
-      past_user_inputs: [],
+      generated_responses: [
+        " Hi Bob, nice to meet you. What do you like to do in your free time?",
+        " That sounds like a lot of fun. What kind of contracts do you usually work on?",
+        " I'''ve never heard of Chain Link. Are they a company that makes chainsaws?",
+        " Oh, I see. I'''ve heard of them.",
+      ],
+      past_user_inputs: [
+        "Hi, my name is Bob",
+        "I like to program solidity smart contracts.",
+        "ChainLink",
+        "No, they are a blockchain company",
+      ],
       text: prompt,
     },
   },
@@ -37,6 +47,6 @@ const generatedResponses = openAiResponse.data.conversation.generated_responses
 //console.log("Generated Text:", generatedText);
 //console.log("Past User Inputs:", pastUserInputs);
 //console.log("Generated Responses:", generatedResponses);
-const encodedData = JSON.stringify(generatedResponses)
+const encodedData = JSON.stringify(generatedText)
 
 return Functions.encodeString(encodedData)

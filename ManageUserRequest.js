@@ -34,6 +34,7 @@ async function makeRequest() {
     const { execSync } = require("child_process")
 
     const command = "npx hardhat functions-simulate --gaslimit 300000"
+    //const command = `npx hardhat functions-request --contract ${CONTRACT_ADDRESS} --subid ${SUBSCRIPTION_ID}`
     const output = execSync(command).toString().trim()
 
     console.log(output)
@@ -55,8 +56,9 @@ async function processResponse(AiResponse) {
   console.log(user)
   const fundMe = await ethers.getContractAt("FundMe", "0xb9DeE93B494A7F4d0135a1AbB018Cb40890B61c5", user)
   console.log(`Got contract FundMe at ${fundMe.address}`)
-  console.log("Charging User...")
-  amountCharged = ethers.utils.parseEther("0.000001")
+
+  amountCharged = ethers.utils.parseEther("0.01")
+  console.log(`Charging User ${amountCharged} Wei`)
   const transactionResponse = await fundMe.chargeMe(user, amountCharged)
   await transactionResponse.wait()
   console.log("Charged!")

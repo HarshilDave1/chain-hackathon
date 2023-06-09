@@ -34,7 +34,8 @@ async function promptTxCost(gasEstimate, hre, skipPrompt = false) {
     gasEstimate.mul(maxPriorityFeePerGas.add(lastBaseFeePerGas)),
     network.config.nativeCurrencyDecimals
   )
-  const signer = await hre.ethers.getSigner()
+
+  const signer = await ethers.getSigners()
   const nativePriceUSD = await getPriceUSD(network.config.linkPriceFeed, hre.ethers)
   const transactionEstimateUSD = transactionEstimateNative * nativePriceUSD
 
