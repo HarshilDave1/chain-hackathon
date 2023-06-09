@@ -1,50 +1,14 @@
-const fs = require("fs")
-
-// Loads environment variables from .env.enc file (if it exists)
-require("@chainlink/env-enc").config()
-
-const Location = {
-  Inline: 0,
-  Remote: 1,
-}
-
-const CodeLanguage = {
-  JavaScript: 0,
-}
-
-
-const ReturnType = {
-  uint: "uint256",
-  uint256: "uint256",
-  int: "int256",
-  int256: "int256",
-  string: "string",
-  bytes: "Buffer",
-  Buffer: "Buffer",
-}
-
-// Configure the request by setting the fields below
-const requestConfig = {
-  // Location of source code (only Inline is currently supported)
-  codeLocation: Location.Inline,
-  // Code language (only JavaScript is currently supported)
-  codeLanguage: CodeLanguage.JavaScript,
-  // String containing the source code to be executed
-  source: fs.readFileSync("./promptOpenAI.js").toString(),
-  //source: fs.readFileSync('./API-request-example.js').toString(),
-  // Secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey). The secrets object can only contain string values.
-  //secrets: { apiKey: process.env.COINMARKETCAP_API_KEY ?? "" },
-  // Per-node secrets objects assigned to each DON member. When using per-node secrets, nodes can only use secrets which they have been assigned.
+module.exports = {
+  codeLocation: 0,
+  codeLanguage: 0,
+  source:
+    '\n// curl https://pib5z17hx2dep6m1.us-east-1.aws.endpoints.huggingface.cloud \\\n// -X POST \\\n// -d \'{"inputs":{"generated_responses":[],"past_user_inputs":[],"text":"Hey my name is Julien! How are you?"}}\' \\\n// -H "Authorization: Bearer <hf_token>" \\\n// -H "Content-Type: application/json"\n\nconst prompt = args[0];\n\nif (\n    !secrets.openaiKey\n) {\n    throw Error(\n        "Need to set OPENAI_KEY environment variable"\n    )\n}\n\nconst openAIRequest = Functions.makeHttpRequest({\n    url: "https://pib5z17hx2dep6m1.us-east-1.aws.endpoints.huggingface.cloud",\n    method: "POST",\n    headers: {\n        \'Authorization\': `Bearer ${secrets.openaiKey}`,\n        \'Content-Type\': `application/json`,\n        \'Accept\': \'application/json\'\n\n    },\n    data: {\n        "inputs": {\n            "generated_responses": [],\n            "past_user_inputs": [],\n            "text": prompt\n        }\n    }\n});\n\nconst openAiResponse = await openAIRequest;\n// console.log("raw response", openAiResponse);\n\nconst generatedText = openAiResponse.data.generated_text;\nconst pastUserInputs = openAiResponse.data.conversation.past_user_inputs;\nconst generatedResponses = openAiResponse.data.conversation.generated_responses;\n\nconsole.log("Generated Text:", generatedText);\nconsole.log("Past User Inputs:", pastUserInputs);\nconsole.log("Generated Responses:", generatedResponses);\nconst encodedData = JSON.stringify(generatedResponses);\n\nreturn Functions.encodeString(encodedData)\n',
   perNodeSecrets: [],
-  // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
-  walletPrivateKey: process.env["PRIVATE_KEY"],
-  // Args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]).
-  args: ["What is bitcoin?"],
-  // Expected type of the returned value
-  expectedReturnType: ReturnType.string,
-  // Redundant URLs which point to encrypted off-chain secrets
+  walletPrivateKey: "255a1438a9595943d8683eb555c566ccac4e66d8645607758a4756ee1a45549c",
+  args: ["hey"],
+  expectedReturnType: "string",
   secretsURLs: [],
-  secrets: { openaiKey: process.env.OPENAI_KEY },
+  secrets: {
+    openaiKey: "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",
+  },
 }
-
-module.exports = requestConfig

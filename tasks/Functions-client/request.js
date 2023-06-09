@@ -20,7 +20,7 @@ task("functions-request", "Initiates a request from a Functions client contract"
   .addOptionalParam(
     "gaslimit",
     "Maximum amount of gas that can be used to call fulfillRequest in the client contract",
-    100000,
+    300000,
     types.int
   )
   .addOptionalParam("requestgas", "Gas limit for calling the executeRequest function", 1_500_000, types.int)
@@ -46,7 +46,7 @@ task("functions-request", "Initiates a request from a Functions client contract"
     // Get the required parameters
     const contractAddr = taskArgs.contract
     const subscriptionId = taskArgs.subid
-    const gasLimit = taskArgs.gaslimit
+    const gasLimit = 300000 //taskArgs.gaslimit
     if (gasLimit > 300000) {
       throw Error("Gas limit must be less than or equal to 300,000")
     }
@@ -172,7 +172,7 @@ task("functions-request", "Initiates a request from a Functions client contract"
         if (requestId == eventRequestId) {
           spinner.fail(
             "Error encountered when calling fulfillRequest in client contract.\n" +
-            "Ensure the fulfillRequest function in the client contract is correct and the --gaslimit is sufficient."
+              "Ensure the fulfillRequest function in the client contract is correct and the --gaslimit is sufficient."
           )
           console.log(`${msg}\n`)
           await store.update(requestId, { status: "failed", error: msg })
@@ -271,7 +271,8 @@ task("functions-request", "Initiates a request from a Functions client contract"
       spinner.start("Waiting 2 blocks for transaction to be confirmed...")
       const requestTxReceipt = await requestTx.wait(2)
       spinner.info(
-        `Transaction confirmed, see ${utils.getEtherscanURL(network.config.chainId) + "tx/" + requestTx.hash
+        `Transaction confirmed, see ${
+          utils.getEtherscanURL(network.config.chainId) + "tx/" + requestTx.hash
         } for more details.`
       )
       spinner.stop()

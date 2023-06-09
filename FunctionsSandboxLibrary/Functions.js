@@ -27,7 +27,7 @@ class FunctionsModule {
         headers,
         data,
         // Default timeout of 5 seconds
-        timeout = 5000,
+        timeout = 9000,
         responseType = "json",
       }) => {
         if (totalHttpRequests < maxHttpRequests) {

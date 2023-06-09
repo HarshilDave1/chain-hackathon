@@ -2,6 +2,7 @@ require("@nomicfoundation/hardhat-toolbox")
 require("hardhat-contract-sizer")
 require("@openzeppelin/hardhat-upgrades")
 require("./tasks")
+//require("hardhat-deploy")
 require("@chainlink/env-enc").config()
 // require("userInput")
 const { networks } = require("./networks")
@@ -44,11 +45,15 @@ module.exports = {
       allowUnlimitedContractSize: true,
       accounts: process.env.PRIVATE_KEY
         ? [
-          {
-            privateKey: process.env.PRIVATE_KEY,
-            balance: "10000000000000000000000",
-          },
-        ]
+            {
+              privateKey: process.env.PRIVATE_KEY,
+              balance: "10000000000000000000000",
+            },
+            {
+              privateKey: process.env.PRIVATE_KEY2,
+              balance: "10000000000000000000000",
+            },
+          ]
         : [],
     },
     ...networks,
@@ -84,6 +89,15 @@ module.exports = {
   tasks: {
     userInput: {
       script: "userInput.js",
-    }
+    },
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0, // here this will by default take the first account as deployer
+      1: 0, // similarly on mainnet it will take the first account as deployer. Note though that depending on how hardhat network are configured, the account 0 on one network can be different than on another
+    },
+    user: {
+      default: 1,
+    },
   },
 }

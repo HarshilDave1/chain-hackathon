@@ -15,6 +15,7 @@ const isTestEnvironment = npmCommand == "test" || npmCommand == "test:unit"
 
 // Set EVM private key (required)
 const PRIVATE_KEY = process.env.PRIVATE_KEY
+const PRIVATE_KEY2 = process.env.PRIVATE_KEY2
 if (!isTestEnvironment && !PRIVATE_KEY) {
   throw Error("Set the PRIVATE_KEY environment variable with your EVM wallet private key")
 }
@@ -37,7 +38,7 @@ const networks = {
   polygonMumbai: {
     url: process.env.POLYGON_MUMBAI_RPC_URL || "UNSET",
     gasPrice: undefined,
-    accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+    accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY, PRIVATE_KEY2] : [],
     verifyApiKey: process.env.POLYGONSCAN_API_KEY || "UNSET",
     chainId: 80001,
     confirmations: DEFAULT_VERIFICATION_BLOCK_CONFIRMATIONS,
