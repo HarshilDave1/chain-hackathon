@@ -20,3 +20,11 @@ With our approach, the following things can be possible:
 For this project, we start by integrating HuggingFace's API. We use chainlink-functions to call the API and receive the response. The user can input prompts, and chat with ChatGPT. 
 
 The cost of interfacing with ChatGPT, along with costs of the blockchain, are charged to funds deposited by the user. 
+
+
+## Testing yourself
+
+Please note that I will pause my HuggingFace API since it is a paid service. You may start your own and plug in the API address in 'promptHuggingFace.js'
+Make a copy of 'Functions-request-config-backup.js' and rename to 'Functions-request-config.js'. This is because of my security concern below.
+
+**ALSO NOTE A SECURITY CONCERN**: My script saves the private key in plain text inside the Functions-request-config.js when you run ManageUserRequest.js. My JS skills are pretty rudimentary...
