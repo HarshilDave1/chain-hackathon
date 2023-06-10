@@ -1,4 +1,4 @@
-# Chainlink Functions Hackathon
+# Chainlink Functions Hackathon: Funding Open Source AI Models for Blockchain
 
 For submission by Harshil Dave
 June 9 2023
